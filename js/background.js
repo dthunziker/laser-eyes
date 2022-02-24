@@ -14,9 +14,9 @@ let disabledIcons = {
     "128": "/img/128.png"
 };
 
-chrome.action.onClicked.addListener(function (tab) {
+chrome.action.onClicked.addListener((tab) => {
 
-    chrome.storage.sync.get(['laserEyesCss'], function (result) {
+    chrome.storage.sync.get(['laserEyesCss'], (result) => {
 
         if (result && result.laserEyesCss) {
             css = result.laserEyesCss;
@@ -26,7 +26,7 @@ chrome.action.onClicked.addListener(function (tab) {
             chrome.scripting.insertCSS({
                 target: { tabId: tab.id },
                 css: css
-            }, function () {
+            }, () => {
                 injected = true;
                 chrome.action.setIcon({
                     path: enabledIcons,
@@ -34,11 +34,12 @@ chrome.action.onClicked.addListener(function (tab) {
                 });
             });
         }
+        
         else {
             chrome.scripting.removeCSS({
                 target: { tabId: tab.id },
                 css: css
-            }, function () {
+            }, () => {
                 injected = false;
                 chrome.action.setIcon({
                     path: disabledIcons,
@@ -46,6 +47,7 @@ chrome.action.onClicked.addListener(function (tab) {
                 });
             });
         }
+
     });
 
 });
