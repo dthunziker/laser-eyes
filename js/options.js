@@ -7,17 +7,16 @@
         if (result && result.laserEyesCss) {
             css = result.laserEyesCss;
         }
-        
+
         textArea.value = css;
     });
 
-    textArea.addEventListener('keyup', () => {
-        setCss(textArea.value);
+    ['keyup', 'change'].forEach((e) => {
+        textArea.addEventListener(e, () => {
+            chrome.storage.sync.set({ 'laserEyesCss': textArea.value }, () => {
+                console.log('laserEyesCss was set to ' + textArea.value);
+            });
+        });
     });
-});
 
-function setCss(value) {
-    chrome.storage.sync.set({ 'laserEyesCss': value }, () => {
-        console.log('laserEyesCss was set to ' + value);
-    });
-}
+});
